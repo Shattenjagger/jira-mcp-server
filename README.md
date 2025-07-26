@@ -241,6 +241,14 @@ For issues and questions:
 - Review [MCP Documentation](https://modelcontextprotocol.io/docs)
 - Consult [Jira REST API Documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/)
 
+---
+
+## 👨‍💻 Behind the Code
+
+This project emerged from a real corporate pain point: AI assistants couldn't access Jira behind company firewalls. Sometimes the best solutions are the simple ones that just work.
+
+**More practical tech projects**: [@it_jagger](https://t.me/it_jagger)
+
 ## Donate:
 
 ETH (Mainnet): 0x765885e6Cb9e40E1504F80272A7b5B60ffF7b92d

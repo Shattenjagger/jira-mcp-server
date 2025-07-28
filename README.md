@@ -22,6 +22,7 @@ A Model Context Protocol (MCP) server that provides comprehensive integration wi
 ### Python Dependencies
 - `jira` ≥ 3.8.0 - Official Jira Python library
 - `mcp[cli]` ≥ 1.12.1 - Model Context Protocol framework
+- `python-dotenv` ≥ 1.0.0 - Environment variable loading from .env files
 
 ## Installation
 
@@ -43,8 +44,23 @@ pip install -r requirements.txt
 ```
 
 ### 3. Environment Configuration
-Create a `.env` file or set environment variables:
 
+The server supports loading configuration from a `.env` file for convenience. Create a `.env` file in the project root or set environment variables directly:
+
+#### Option 1: Using .env file (Recommended)
+Create a `.env` file in the project root:
+
+```env
+# Required Configuration
+JIRA_HOST=https://your-domain.atlassian.net
+JIRA_EMAIL=your-email@company.com
+JIRA_TOKEN=your-api-token
+
+# Optional Configuration  
+JIRA_CONTEXT=additional-context
+```
+
+#### Option 2: Environment Variables
 ```bash
 # Required Configuration
 export JIRA_HOST="https://your-domain.atlassian.net"  # For Jira Cloud
@@ -54,6 +70,8 @@ export JIRA_TOKEN="your-api-token"                   # Jira API token
 # Optional Configuration  
 export JIRA_CONTEXT="additional-context"             # Optional context
 ```
+
+> **Note**: The `.env` file is automatically loaded when the server starts. Environment variables take precedence over .env file values.
 
 #### Getting Your Jira API Token
 

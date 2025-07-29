@@ -82,18 +82,7 @@ def get_project_versions(project_key: str) -> list[dict]:
 def get_issue(issue_key: str) -> dict:
     """Get issue by key"""
     issue = jira.issue(issue_key)
-    return {
-        "key": issue.key,
-        "summary": issue.fields.summary,
-        "status": issue.fields.status.name,
-        "assignee": getattr(issue.fields.assignee, 'displayName', 'Unassigned') if issue.fields.assignee else 'Unassigned',
-        "reporter": getattr(issue.fields.reporter, 'displayName', '') if issue.fields.reporter else '',
-        "created": issue.fields.created,
-        "updated": issue.fields.updated,
-        "description": getattr(issue.fields, 'description', ''),
-        "priority": getattr(issue.fields.priority, 'name', '') if issue.fields.priority else '',
-        "issuetype": issue.fields.issuetype.name
-    }
+    return issue
 
 @mcp.tool(title="Create issue", description="Create a new issue with flexible fields dict. Must include at minimum: project, summary, description, issuetype. Examples: {'project': {'key': 'PROJ'}, 'summary': 'Task title', 'description': 'Task description', 'issuetype': {'name': 'Story'}, 'parent': {'key': 'EPIC-123'}} for creating story in epic, or {'project': {'key': 'PROJ'}, 'summary': 'Bug title', 'description': 'Bug description', 'issuetype': {'name': 'Bug'}, 'priority': {'name': 'High'}, 'components': [{'name': 'Frontend'}]} for bug with priority and component")
 def create_issue(fields: dict) -> dict:
@@ -143,13 +132,7 @@ def transition_issue(issue_key: str, transition_id: str, fields: dict = None) ->
 def get_issue_comments(issue_key: str) -> list[dict]:
     """Get issue comments"""
     comments = jira.comments(issue_key)
-    return [{
-        "id": comment.id,
-        "author": comment.author.displayName,
-        "body": comment.body,
-        "created": comment.created,
-        "updated": comment.updated
-    } for comment in comments]
+    return comments
 
 @mcp.tool(title="Add comment", description="Add comment to an issue with optional visibility. visibility example: {'type': 'group', 'value': 'jira-developers'} for group visibility or {'type': 'role', 'value': 'Developers'} for role visibility. Use is_internal=True for internal comments in Service Desk")
 def add_comment(issue_key: str, comment_body: str, visibility: dict = None, is_internal: bool = False) -> dict:
@@ -176,22 +159,13 @@ def add_attachment(issue_key: str, file_path: str) -> dict:
 def get_user(account_id: str) -> dict:
     """Get user by account ID"""
     user = jira.user(account_id)
-    return {
-        "accountId": user.accountId,
-        "displayName": user.displayName,
-        "emailAddress": getattr(user, 'emailAddress', ''),
-        "active": getattr(user, 'active', True)
-    }
+    return user
 
 @mcp.tool(title="Search users", description="Search for users", annotations={"readOnlyHint": True})
 def search_users(query: str, max_results: int = 50) -> list[dict]:
     """Search for users"""
     users = jira.search_users(query=query, maxResults=max_results)
-    return [{
-        "accountId": user.accountId,
-        "displayName": user.displayName,
-        "emailAddress": getattr(user, 'emailAddress', '')
-    } for user in users]
+    return users
 
 # Groups
 @mcp.tool(title="Get groups", description="Get list of groups", annotations={"readOnlyHint": True})
